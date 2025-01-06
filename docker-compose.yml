@@ -1,40 +1,39 @@
-
 services:
   app1:
     build:
-      context: ./03.fp-refactor
+      context: ./fp
       dockerfile: Dockerfile  # Mặc định nếu tên là Dockerfile
     ports:
       - "5051:5050"
     networks:
       - mynetwork
     volumes:
-      - ./03.fp-refactor/serviceAccountKey.json:/app/serviceAccountKey.json
+      - ./fp/serviceAccountKey.json:/app/serviceAccountKey.json
     restart: always
 
   app2:
     build:
-      context: ./05.ip-register
+      context: ./fp-ip
       dockerfile: Dockerfile  # Mặc định nếu tên là Dockerfile
     ports:
       - "5052:5050"
     networks:
       - mynetwork
     volumes:
-      - ./05.ip-register/serviceAccountKey.json:/app/serviceAccountKey.json
+      - ./fp-ip/serviceAccountKey.json:/app/serviceAccountKey.json
     restart: always
 
   app3:
     build:
-      context: ./04.image-detector
+      context: ./image-detector
       dockerfile: Dockerfile  # Mặc định nếu tên là Dockerfile
     ports:
       - "5053:5050"
     networks:
       - mynetwork
     volumes:
-      - ./04.image-detector/serviceAccountKey.json:/app/serviceAccountKey.json
-      - ./04.image-detector/model:/app/model
+      - ./image-detector/serviceAccountKey.json:/app/serviceAccountKey.json
+      - ./image-detector/model:/app/model
     restart: always
 
 networks:
