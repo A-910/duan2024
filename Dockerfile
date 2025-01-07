@@ -1,4 +1,4 @@
-FROM python:3.12.6-slim
+FROM python:3.11-slim
 
 # Cài đặt các công cụ cần thiết cho ứng dụng, bao gồm distutils và build-essential
 RUN apt-get update && apt-get install -y \
