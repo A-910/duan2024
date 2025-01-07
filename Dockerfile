@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     libxrender-dev \
     python3-distutils \
     python3-pip \
-    wget
+    wget \
+    git
 
 # Xóa cache sau khi cài đặt
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -17,15 +18,19 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Tạo thư mục làm việc
 WORKDIR /app
 
-# Sao chép các file cần thiết vào container
+# Sao chép file requirements.txt vào container
 COPY requirements.txt .
+
+# Cài đặt pip trước để đảm bảo phiên bản mới nhất
+RUN pip install --upgrade pip
+
+# Cài đặt các thư viện trong requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Sao chép các file còn lại vào container
 COPY firedetector.py .
 COPY serviceAccountKey.json .
 COPY best.pt .
-
-# Cài đặt thư viện Python
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose port 5050
 EXPOSE 5050
