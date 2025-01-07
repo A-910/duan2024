@@ -1,4 +1,4 @@
-torch==1.13.0 -f https://download.pytorch.org/whl/torch_stable.html
+torch==2.1.0 -f https://download.pytorch.org/whl/torch_stable.html
 ultralytics==8.3.56
 firebase-admin==6.2.0
 opencv-python-headless==4.7.0.72
