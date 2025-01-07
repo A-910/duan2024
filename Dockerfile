@@ -1,6 +1,6 @@
 FROM python:3.12.6-slim
 
-# Cài đặt các công cụ cần thiết cho ứng dụng
+# Cài đặt các công cụ cần thiết cho ứng dụng, bao gồm distutils và build-essential
 RUN apt-get update && apt-get install -y \
     build-essential \
     libglib2.0-0 \
@@ -10,10 +10,11 @@ RUN apt-get update && apt-get install -y \
     python3-distutils \
     python3-pip \
     wget \
-    git
+    git \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Xóa cache sau khi cài đặt
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+# Cài đặt pip và setuptools (bao gồm distutils) qua pip
+RUN pip install --upgrade pip setuptools
 
 # Tạo thư mục làm việc
 WORKDIR /app
@@ -21,16 +22,13 @@ WORKDIR /app
 # Sao chép file requirements.txt vào container
 COPY requirements.txt .
 
-# Cài đặt pip trước để đảm bảo phiên bản mới nhất
-RUN pip install --upgrade pip
-
 # Cài đặt các thư viện trong requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Sao chép các file còn lại vào container
-COPY firedetector.py .
-COPY serviceAccountKey.json .
-COPY best.pt .
+COPY firedetector.py . 
+COPY serviceAccountKey.json . 
+COPY best.pt . 
 
 # Expose port 5050
 EXPOSE 5050
