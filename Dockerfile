@@ -1,5 +1,5 @@
 # Sử dụng hình ảnh chính thức của Python
-FROM python:3.9.0
+FROM python:3.10.0
 
 # Cài đặt các công cụ cần thiết cho ứng dụng
 RUN apt-get update && apt-get install -y \
