@@ -13,6 +13,7 @@ RUN python -m ensurepip && \
     python -m pip install --upgrade pip setuptools
 
 # Tạo thư mục làm việc
+RUN mkdir -p /app
 WORKDIR /app
 
 # Sao chép các file cần thiết vào container
