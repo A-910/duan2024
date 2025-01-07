@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
     libsm6 \
     libxext6 \
     libxrender-dev \
-    libgl1-mesa-glx \  # Thêm thư viện này để khắc phục lỗi thiếu libGL.so.1
+    libgl1-mesa-glx && \
+    apt-get install -y \
     python3-distutils \
     python3-pip \
     python3-setuptools \
