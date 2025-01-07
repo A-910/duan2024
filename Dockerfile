@@ -13,8 +13,8 @@ RUN apt-get update && apt-get install -y \
     git \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Cài đặt pip và setuptools (bao gồm distutils) qua pip
-RUN pip install --upgrade pip setuptools
+# Cài đặt pip, setuptools và wheel
+RUN pip install --upgrade pip setuptools wheel
 
 # Tạo thư mục làm việc
 WORKDIR /app
