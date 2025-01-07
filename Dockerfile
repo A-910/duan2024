@@ -8,12 +8,12 @@ RUN apt-get update && apt-get install -y \
     libsm6 \
     libxext6 \
     libxrender-dev \
-    libgl1-mesa-glx \
     python3-distutils \
     python3-pip \
-    python3-setuptools \
-    wget && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    wget
+
+# Xóa cache sau khi cài đặt
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Tạo thư mục làm việc
 WORKDIR /app
@@ -22,7 +22,6 @@ WORKDIR /app
 COPY requirements.txt .
 COPY firedetector.py .
 COPY serviceAccountKey.json .
-# Sao chép best.pt chỉ khi cần thiết
 COPY best.pt .
 
 # Cài đặt thư viện Python
