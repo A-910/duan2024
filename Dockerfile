@@ -4,9 +4,14 @@ FROM python:3.9.0
 # Cài đặt các công cụ cần thiết cho ứng dụng
 RUN apt-get update && apt-get install -y \
     build-essential \
-    libglib2.0-0 libsm6 libxext6 libxrender-dev \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
     libgl1-mesa-glx \  # Thêm thư viện này để khắc phục lỗi thiếu libGL.so.1
-    python3-distutils python3-pip python3-setuptools \
+    python3-distutils \
+    python3-pip \
+    python3-setuptools \
     wget && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
