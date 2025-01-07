@@ -8,8 +8,7 @@ RUN apt-get update && apt-get install -y \
     libsm6 \
     libxext6 \
     libxrender-dev \
-    libgl1-mesa-glx && \
-    apt-get install -y \
+    libgl1-mesa-glx \
     python3-distutils \
     python3-pip \
     python3-setuptools \
