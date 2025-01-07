@@ -19,7 +19,10 @@ RUN apt-get update && apt-get install -y \
 RUN python -m ensurepip && \
     python -m pip install --upgrade pip setuptools
 
-# Tạo thư mục làm việc
+# Tạo thư mục làm việc nếu chưa tồn tại
+RUN mkdir -p /app
+
+# Chuyển đến thư mục làm việc
 WORKDIR /app
 
 # Sao chép các file cần thiết vào container
