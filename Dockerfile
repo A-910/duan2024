@@ -1,5 +1,5 @@
 # Sử dụng hình ảnh chính thức của Python
-FROM python:3.11.0-slim
+FROM python:3.12.6-slim
 
 # Cài đặt các công cụ và thư viện cần thiết
 RUN apt-get update && apt-get install -y \
@@ -16,16 +16,17 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Sao chép các file cần thiết vào container
-COPY requirements.txt .       # Sao chép tệp dependencies
-COPY firedetector.py .        # Sao chép mã chính của ứng dụng
-COPY serviceAccountKey.json . # Sao chép tệp Firebase credentials
-COPY best.pt .                # Sao chép tệp model YOLOv5 (nếu cần)
+COPY requirements.txt .
+COPY firedetector.py .
+COPY serviceAccountKey.json .
+# Sao chép best.pt chỉ khi cần thiết
+COPY best.pt .
 
 # Cài đặt thư viện Python
-RUN pip install --upgrade pip
+RUN pip install --upgrade pip setuptools
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose cổng 5050 để ứng dụng chạy
+# Expose port 5050
 EXPOSE 5050
 
 # Chạy ứng dụng
