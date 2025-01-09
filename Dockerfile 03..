@@ -21,4 +21,4 @@ COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Chạy ứng dụng
-CMD ["python", "03.fp-refactor/main1.py"]
+CMD ["python", "main1.py"]
