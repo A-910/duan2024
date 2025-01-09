@@ -1,4 +1,3 @@
-# Dockerfile
 FROM python:3.11.0-slim
 
 # Cài đặt các gói cần thiết
@@ -15,14 +14,11 @@ RUN apt-get update && apt-get install -y \
 # Thiết lập thư mục làm việc
 WORKDIR /app
 
-# Copy tệp requirements.txt vào container
-COPY requirements.txt .
-
-# Cài đặt các dependencies từ requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy mã nguồn
+# Sao chép các tệp mã nguồn vào container
 COPY . .
 
-# Command mặc định
-CMD ["python", "firedetector.py"]
+# Cài đặt các dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Chạy ứng dụng
+CMD ["python", "03.fp-refactor/main1.py"]
