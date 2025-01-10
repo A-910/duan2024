@@ -21,7 +21,7 @@ services:
       - mynetwork
     volumes:
       - ./05.ip-register/serviceAccountKey.json:/app/serviceAccountKey.json
-      - ./05.ip-register:/app/05.ip-register  # Map thư mục vào container
+      - ./05.ip-register:/app/05.ip-register  # Map thư mục chứa registered_ips.json
     restart: always
 
   app3:
