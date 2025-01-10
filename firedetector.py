@@ -83,7 +83,7 @@ def send_to_firebase(result):
     """Gửi kết quả dự đoán lửa đến Firebase Realtime Database."""
     try:
         ref = db.reference("fire_detection")
-        ref.set({"result": result})
+        ref.set({"result": result})  # Gửi kết quả 0 hoặc 1
         print(f"Đã gửi kết quả '{result}' đến Firebase Database.")
     except Exception as e:
         print(f"Lỗi khi gửi kết quả đến Firebase Database: {e}")
