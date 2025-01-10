@@ -1,3 +1,4 @@
+import os
 import json
 import cv2
 import requests
@@ -31,13 +32,13 @@ def fetch_registered_ips(file_path, is_url=False):
         return None
 
 def process_frame(chunk):
-    """Chuyển đổi chunk byte thành frame hình ảnh"""
+    """Chuyển đổi chunk byte thành frame hình ảnh."""
     np_array = np.frombuffer(chunk, dtype=np.uint8)
     frame = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
     return frame if frame is not None else None
 
 def fetch_stream(ip_address, retries=3, timeout=10):
-    """Lấy stream từ ESP32-CAM"""
+    """Lấy stream từ ESP32-CAM."""
     stream_url = f"http://{ip_address}:80/stream?resolution=640x480"
     attempt = 0
     frame_buffer = b""
@@ -73,11 +74,17 @@ def fetch_stream(ip_address, retries=3, timeout=10):
     return
 
 def main():
-    # Cấu hình đường dẫn
+    # Xác định thư mục hiện tại của script
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Tạo đường dẫn tới file JSON
+    file_path = os.path.join(current_dir, "05.ip-register", "registered_ips.json")
     is_url = False  # Đặt True nếu muốn sử dụng URL
-    file_path = "05.ip-register/registered_ips.json"  # Đường dẫn cục bộ
-    # Đổi thành URL nếu cần:
-    # file_path = "http://example.com/path/to/registered_ips.json"
+    
+    # Kiểm tra xem file có tồn tại không
+    if not os.path.exists(file_path):
+        print(f"File not found: {file_path}")
+        return
 
     # Lấy danh sách IP đã đăng ký
     registered_ips = fetch_registered_ips(file_path, is_url=is_url)
