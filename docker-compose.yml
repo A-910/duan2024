@@ -1,3 +1,4 @@
+version: '3'
 services:
   app1:
     build:
@@ -9,7 +10,7 @@ services:
       - mynetwork
     volumes:
       - ./03.fp-refactor/serviceAccountKey.json:/app/serviceAccountKey.json
-      - ./05.ip-register:/app/05.ip-register  # Đảm bảo mount đúng thư mục chứa registered_ips.json
+      - ./05.ip-register:/app/05.ip-register  # Mount thư mục chứa registered_ips.json vào app1
     restart: always
 
   app2:
@@ -22,7 +23,7 @@ services:
       - mynetwork
     volumes:
       - ./05.ip-register/serviceAccountKey.json:/app/serviceAccountKey.json
-      - ./05.ip-register:/app/05.ip-register  # Mount thư mục đúng vị trí
+      - ./05.ip-register:/app/05.ip-register  # Mount thư mục chứa registered_ips.json vào app2
     restart: always
 
   app3:
@@ -37,3 +38,7 @@ services:
       - ./04.image-detector/serviceAccountKey.json:/app/serviceAccountKey.json
       - ./04.image-detector/model:/app/model
     restart: always
+
+networks:
+  mynetwork:
+    driver: bridge
