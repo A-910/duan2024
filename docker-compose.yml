@@ -18,7 +18,7 @@ services:
       context: ./05.ip-register
       dockerfile: Dockerfile
     ports:
-      - "5052:5050"
+      - "5050:5050"
     networks:
       - mynetwork
     volumes:
@@ -31,12 +31,22 @@ services:
       context: ./04.image-detector
       dockerfile: Dockerfile
     ports:
-      - "5053:5050"
+      - "5052:5050"
     networks:
       - mynetwork
     volumes:
       - ./04.image-detector/serviceAccountKey.json:/app/serviceAccountKey.json
       - ./04.image-detector/model:/app/model
+    restart: always
+
+  ip_updater:
+    build:
+      context: ./05.ip-updater  # Thư mục chứa script Python để cập nhật registered_ips.json
+      dockerfile: Dockerfile
+    networks:
+      - mynetwork
+    volumes:
+      - ./05.ip-register:/app/05.ip-register  # Mount thư mục chứa registered_ips.json
     restart: always
 
 networks:
