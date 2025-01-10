@@ -41,18 +41,18 @@ def fetch_stream(ip_address, retries=3, timeout=10):
     """Lấy stream từ ESP32-CAM."""
     stream_url = f"http://{ip_address}:80/stream?resolution=640x480"
     attempt = 0
-    frame_buffer = b""
-    max_buffer_size = 1024 * 200
+    frame_buffer = b""  # Buffer chứa dữ liệu video
+    max_buffer_size = 1024 * 200  # Giới hạn kích thước buffer
 
     while attempt < retries:
         try:
             print(f"Attempting to fetch stream from {stream_url} (Attempt {attempt + 1}/{retries})...")
             response = requests.get(stream_url, timeout=timeout, stream=True)
             if response.status_code == 200:
-                for chunk in response.iter_content(1024):
+                for chunk in response.iter_content(1024):  # Lấy dữ liệu từng phần
                     frame_buffer += chunk
                     if len(frame_buffer) > max_buffer_size:
-                        frame_buffer = frame_buffer[-1024 * 10:]
+                        frame_buffer = frame_buffer[-1024 * 10:]  # Giới hạn kích thước buffer
                     start = frame_buffer.find(b'\xff\xd8')
                     end = frame_buffer.find(b'\xff\xd9')
                     if start != -1 and end != -1:
@@ -113,7 +113,8 @@ def main():
                 print("No frame received. Exiting stream processing.")
                 break
 
-            cv2.imshow("Live Stream", frame)
+            # Bỏ dòng này nếu không cần hiển thị cửa sổ
+            # cv2.imshow("Live Stream", frame)
 
             current_time = time.time()
             if current_time - last_upload_time >= 2:
@@ -127,10 +128,12 @@ def main():
 
             frame_count += 1
 
-            if cv2.waitKey(1) & 0xFF == ord("q"):
-                break
+            # Bỏ dòng này nếu không cần cửa sổ hiển thị
+            # if cv2.waitKey(1) & 0xFF == ord("q"):
+            #     break
 
-    cv2.destroyAllWindows()
+    # Bỏ dòng này nếu không cần đóng cửa sổ hiển thị
+    # cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     main()
