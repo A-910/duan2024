@@ -74,13 +74,13 @@ def fetch_stream(ip_address, retries=3, timeout=10):
     return
 
 def main():
-    # Xác định thư mục hiện tại của script
+    # Lấy đường dẫn đầy đủ tới thư mục chứa script
     current_dir = os.path.dirname(os.path.abspath(__file__))
 
-    # Tạo đường dẫn tới file JSON
+    # Đảm bảo đường dẫn đúng tới file registered_ips.json
     file_path = os.path.join(current_dir, "05.ip-register", "registered_ips.json")
     is_url = False  # Đặt True nếu muốn sử dụng URL
-    
+
     # Kiểm tra xem file có tồn tại không
     if not os.path.exists(file_path):
         print(f"File not found: {file_path}")
