@@ -2,32 +2,33 @@ services:
   app1:
     build:
       context: ./03.fp-refactor
-      dockerfile: Dockerfile  # Mặc định nếu tên là Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "5051:5050"
     networks:
       - mynetwork
     volumes:
       - ./03.fp-refactor/serviceAccountKey.json:/app/serviceAccountKey.json
+      - ./05.ip-register:/app/05.ip-register  # Đảm bảo mount đúng thư mục chứa registered_ips.json
     restart: always
 
   app2:
     build:
       context: ./05.ip-register
-      dockerfile: Dockerfile  # Mặc định nếu tên là Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "5052:5050"
     networks:
       - mynetwork
     volumes:
       - ./05.ip-register/serviceAccountKey.json:/app/serviceAccountKey.json
-      - ./05.ip-register:/app/05.ip-register  # Map thư mục chứa registered_ips.json
+      - ./05.ip-register:/app/05.ip-register  # Mount thư mục đúng vị trí
     restart: always
 
   app3:
     build:
       context: ./04.image-detector
-      dockerfile: Dockerfile  # Mặc định nếu tên là Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "5053:5050"
     networks:
@@ -36,7 +37,3 @@ services:
       - ./04.image-detector/serviceAccountKey.json:/app/serviceAccountKey.json
       - ./04.image-detector/model:/app/model
     restart: always
-
-networks:
-  mynetwork:
-    driver: bridge
