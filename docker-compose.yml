@@ -11,6 +11,8 @@ services:
     volumes:
       - ./03.fp-refactor/serviceAccountKey.json:/app/serviceAccountKey.json
       - ./05.ip-register:/app/05.ip-register  # Mount thư mục chứa registered_ips.json vào app1
+    environment:
+      IP_REGISTER_API: "http://35.229.225.169:5050/get_ips"  # Truyền biến môi trường IP_REGISTER_API
     restart: always
 
   app2:
@@ -24,6 +26,8 @@ services:
     volumes:
       - ./05.ip-register/serviceAccountKey.json:/app/serviceAccountKey.json
       - ./05.ip-register:/app/05.ip-register  # Mount thư mục chứa registered_ips.json vào app2
+    environment:
+      IP_REGISTER_API: "http://35.229.225.169:5050/get_ips"  # Truyền biến môi trường IP_REGISTER_API
     restart: always
 
   app3:
@@ -37,6 +41,8 @@ services:
     volumes:
       - ./04.image-detector/serviceAccountKey.json:/app/serviceAccountKey.json
       - ./04.image-detector/model:/app/model
+    environment:
+      IP_REGISTER_API: "http://35.229.225.169:5050/get_ips"  # Truyền biến môi trường IP_REGISTER_API
     restart: always
 
 networks:
