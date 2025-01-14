@@ -12,7 +12,7 @@ services:
       - ./03.fp-refactor/serviceAccountKey.json:/app/serviceAccountKey.json
       - ./05.ip-register:/app/05.ip-register  # Mount thư mục chứa registered_ips.json vào app1
     environment:
-      IP_REGISTER_API: "http://35.229.225.169:5050/get_ips"  # Truyền biến môi trường IP_REGISTER_API
+      - IP_REGISTER_API=${IP_REGISTER_API}  # Sử dụng biến từ file .env
     restart: always
 
   app2:
