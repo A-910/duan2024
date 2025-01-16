@@ -4,13 +4,12 @@ from ultralytics import YOLO
 import cv2
 import numpy as np
 import time
-import threading  # Thư viện để xử lý song song
 
 # Khởi tạo Firebase
 cred = credentials.Certificate("./serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://atmega238p-70bdc-default-rtdb.firebaseio.com/',
-    'storageBucket': 'atmega238p-70bdc.firebasestorage.app'  # Bucket name của bạn
+    'storageBucket': 'atmega238p-70bdc.appspot.com'  # Đảm bảo tên bucket đúng
 })
 
 # Load mô hình YOLO
@@ -22,19 +21,18 @@ print("Các nhãn trong mô hình:", model.names)
 cached_image = None
 last_updated_time = 0  # Thời gian ảnh cuối cùng được tải về
 
-
 def download_latest_image_from_firebase():
-    """Tải ảnh mới nhất từ Firebase Storage và trả về dữ liệu nhị phân."""
-    global cached_image, last_updated_time  # Sử dụng ảnh cache nếu đã tải
+    """Tải ảnh mới nhất từ thư mục images trên Firebase Storage và trả về dữ liệu nhị phân."""
+    global cached_image, last_updated_time
     try:
         bucket = firebase_admin.storage.bucket()
-        blobs = list(bucket.list_blobs(prefix="images/"))
+        blobs = list(bucket.list_blobs(prefix="images/"))  # Chỉ lấy blob trong thư mục images
 
         if not blobs:
-            print("Không tìm thấy hình ảnh trong Firebase Storage.")
+            print("Không tìm thấy hình ảnh trong thư mục images trên Firebase Storage.")
             return None
 
-        # Chỉ tải ảnh nếu nó mới hơn ảnh hiện tại
+        # Lọc và tìm ảnh mới nhất
         latest_blob = max(blobs, key=lambda b: b.updated)
 
         # Kiểm tra xem ảnh có thay đổi không
@@ -50,7 +48,6 @@ def download_latest_image_from_firebase():
     except Exception as e:
         print(f"Lỗi khi truy cập Firebase Storage: {e}")
         return None
-
 
 def predict_fire(frame):
     """Chạy ảnh qua mô hình ML để dự đoán có lửa hay không."""
@@ -78,7 +75,6 @@ def predict_fire(frame):
         print(f"Lỗi trong quá trình dự đoán: {e}")
         return 1
 
-
 def send_to_firebase(result):
     """Gửi kết quả dự đoán lửa đến Firebase Realtime Database."""
     try:
@@ -87,7 +83,6 @@ def send_to_firebase(result):
         print(f"Đã gửi kết quả '{result}' đến Firebase Database.")
     except Exception as e:
         print(f"Lỗi khi gửi kết quả đến Firebase Database: {e}")
-
 
 def process_images():
     """Tải ảnh từ Firebase, dự đoán lửa và gửi kết quả liên tục."""
@@ -122,7 +117,6 @@ def process_images():
             print("Lỗi khi giải mã ảnh. Thử lại...")
 
     print("Hoàn tất.")
-
 
 if __name__ == "__main__":
     process_images()
