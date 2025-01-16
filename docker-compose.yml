@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 services:
   app1:
     build:
@@ -20,7 +20,7 @@ services:
       context: ./05.ip-register
       dockerfile: Dockerfile
     ports:
-      - "5052:5050"
+      - "5050:5050"
     networks:
       - mynetwork
     volumes:
@@ -39,6 +39,19 @@ services:
     volumes:
       - ./04.image-detector/serviceAccountKey.json:/app/serviceAccountKey.json
       - ./04.image-detector/model:/app/model
+    restart: always
+
+  app4:
+    build:
+      context: ./06.firebase-detector1
+      dockerfile: Dockerfile
+    ports:
+      - "5054:5050"
+    networks:
+      - mynetwork
+    volumes:
+      - ./06.firebase-detector1/serviceAccountKey.json:/app/serviceAccountKey.json
+      - ./06.firebase-detector1/model:/app/model
     restart: always
 
 networks:
